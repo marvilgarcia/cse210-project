@@ -7,5 +7,6 @@ public class Entry
     public void Display()
     {
        Console.WriteLine($"Date: {DateTime.Now.ToString("yyyy-MM-dd")} - {_promptText}\n-{_entryText}");
+       Console.WriteLine();
     }
 }
