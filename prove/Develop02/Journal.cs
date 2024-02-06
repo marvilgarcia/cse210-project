@@ -26,7 +26,9 @@ public class Journal
 
                 foreach (Entry entry in _entries)
                 {
-                   
+                    DateTime date = DateTime.Now;
+                    string formattedDate = date.ToString("yyyy-MM-dd");
+
                     // Format entry as CSV and write to file
                     outputFile.WriteLine($"\"{entry._date}\",\"{entry._promptText}\",\"{entry._entryText}\"");
                 }
