@@ -10,7 +10,7 @@ public class Reference
         _book = book;
         _chapter = chapter;
         _verse = verse;
-        _endVerse = verse; // Set endVerse to verse by default for single verse references
+        _endVerse = verse; 
     }
 
     public Reference(string book, int chapter, int startVerse, int endVerse)
@@ -28,13 +28,13 @@ public class Reference
         _chapter = int.Parse(parts[1]);
         _verse = int.Parse(parts[2]);
         
-        if (parts.Length == 4) // If end verse is provided
+        if (parts.Length == 4) 
         {
             _endVerse = int.Parse(parts[3]);
         }
         else
         {
-            _endVerse = _verse; // Set endVerse to verse by default for single verse references
+            _endVerse = _verse; 
         }
     }
 
