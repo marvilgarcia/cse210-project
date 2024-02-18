@@ -55,9 +55,9 @@ public class Logger
     public void DisplayActivityCounts()
     {
         Console.WriteLine("Activity Counts:");
-        foreach (var kvp in activityCount)
+        foreach (var count in activityCount)
         {
-            Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+            Console.WriteLine($"{count.Key}: {count.Value}");
         }
     }
 }

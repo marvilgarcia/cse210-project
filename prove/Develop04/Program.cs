@@ -52,8 +52,8 @@ class Program
             }
             else if (choice == 5)
             {
-                logger.Log("Exiting program.");
-                Console.WriteLine("Exiting program...");
+                logger.Log("Thanks for coming today.");
+                Console.WriteLine("Thanks for coming today.");
                 return;
             }
             else
