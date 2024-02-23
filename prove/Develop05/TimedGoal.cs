@@ -41,7 +41,7 @@ public class TimedGoal : Goal
 
     public override string GetStringRepresentation()
     {
-        return $"Timed Goal: {_shortName}, Description: {_description}, Points: {_points}, Expected Time: {_expectedTime.ToString()}, Remaining Time: {_remainingTime.ToString()}";
+        return $"Timed Goal: {_shortName}, Description: {_description}, Points: {_points}, Expected Time: {_expectedTime} hours, Remaining Time: {_remainingTime} hours";
     }
 
     public static bool ParseExpectedTime(string input, out TimeSpan expectedTime)

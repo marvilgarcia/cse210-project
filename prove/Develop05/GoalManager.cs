@@ -271,8 +271,9 @@ public class GoalManager
                     Console.WriteLine("Invalid score format. Loading goals without score.");
                 }
 
-                // Load the goals
-                _goals.Clear(); // Clear existing goals before loading
+                // Clear existing goals before loading
+                _goals.Clear();
+
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -283,32 +284,27 @@ public class GoalManager
                         continue;
                     }
 
+                    string goalType = parts[0].Trim();
                     string[] values = parts[1].Split(',');
+
                     if (values.Length < 4)
                     {
                         Console.WriteLine($"Invalid goal format: {line}");
                         continue;
                     }
 
-                    string goalType = parts[0].Trim();
                     string name = values[0].Trim();
                     string description = values[1].Trim();
                     string points = values[2].Trim();
                     bool isComplete = bool.Parse(values[3].Trim());
-                    
-
 
                     switch (goalType)
                     {
                         case "SimpleGoal":
-                            SimpleGoal simpleGoal = new SimpleGoal(name, description, points);
-                            if (isComplete) simpleGoal.RecordEvent();
-                            _goals.Add(simpleGoal);
+                            _goals.Add(new SimpleGoal(name, description, points));
                             break;
                         case "EternalGoal":
-                            EternalGoal eternalGoal = new EternalGoal(name, description, points);
-                            if (isComplete) eternalGoal.RecordEvent();
-                            _goals.Add(eternalGoal);
+                            _goals.Add(new EternalGoal(name, description, points));
                             break;
                         case "ChecklistGoal":
                             if (values.Length < 6)
@@ -318,9 +314,7 @@ public class GoalManager
                             }
                             int target = int.Parse(values[4].Trim());
                             int bonus = int.Parse(values[5].Trim());
-                            ChecklistGoal checklistGoal = new ChecklistGoal(name, description, points, target, bonus);
-                            if (isComplete) checklistGoal.RecordEvent();
-                            _goals.Add(checklistGoal);
+                            _goals.Add(new ChecklistGoal(name, description, points, target, bonus));
                             break;
                         case "TimedGoal":
                             if (values.Length < 6)
@@ -328,43 +322,33 @@ public class GoalManager
                                 Console.WriteLine($"Invalid goal format: {line}");
                                 continue;
                             }
-                            string[] goalValues = parts[1].Split(',');
-                            if (goalValues.Length < 6)
-                            {
-                                Console.WriteLine($"Invalid goal format: {line}");
-                                continue;
-                            }
-                        
-                            string expectedTimeString = goalValues[4].Trim();
-                            string remainingTimeString = goalValues[5].Trim();
                             TimeSpan expectedTime;
-                            if (!TimeSpan.TryParseExact(expectedTimeString, @"hh\:mm\:ss", CultureInfo.InvariantCulture, out expectedTime))
+                            if (!TimeSpan.TryParseExact(values[4].Trim(), @"hh\:mm\:ss", CultureInfo.InvariantCulture, out expectedTime))
                             {
-                                Console.WriteLine($"Invalid expected time format: {expectedTimeString}");
+                                Console.WriteLine($"Invalid expected time format: {values[4].Trim()}");
                                 continue;
                             }
-
                             TimeSpan remainingTime;
-                            if (!TimeSpan.TryParseExact(remainingTimeString, @"hh\:mm\:ss", CultureInfo.InvariantCulture, out remainingTime))
+                            if (!TimeSpan.TryParseExact(values[5].Trim(), @"hh\:mm\:ss", CultureInfo.InvariantCulture, out remainingTime))
                             {
-                                Console.WriteLine($"Invalid remaining time format: {remainingTimeString}");
+                                Console.WriteLine($"Invalid remaining time format: {values[5].Trim()}");
                                 continue;
                             }
-
-                            // Crear el TimedGoal
-                            TimedGoal timedGoal = new TimedGoal(name, description, points, expectedTime, remainingTime);
-                            if (isComplete) timedGoal.RecordEvent();
-                            _goals.Add(timedGoal);
+                            _goals.Add(new TimedGoal(name, description, points, expectedTime, remainingTime));
                             break;
-                        }
-                   }
+                        default:
+                            Console.WriteLine($"Unknown goal type: {goalType}");
+                            break;
+                    }
                 }
-            
+            }
+
             Console.WriteLine("Goals loaded successfully.");
         }
         catch (Exception ex)
-        {
+    {
             Console.WriteLine($"Error loading goals: {ex.Message}");
         }
     }
 }
+
